@@ -9,7 +9,7 @@
             @empty($barang)
                 <div class="alert alert-danger alert-dismissible">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
-                    Data yang Anda cari tidak ditemukan.
+                    Data dicari tidak ditemukan.
                 </div>
             @else
                 <table class="table table-bordered table-striped table-hover tablesm">

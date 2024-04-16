@@ -24,31 +24,12 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('signIn.logout');
 Route::get('/signUp', [AuthController::class, 'signUp'])->name('signUp.index');
 Route::post('/signUp', [AuthController::class, 'storeMember'])->name('signUp.storeMember');
 
-// Route::get('/adminlte', function () {
-//     return view('welcome_admin_lte');
-// });
-
-// Route::get('/template', function () {
-//     return view('layouts.template');
-// });
-
 Route::get('/chart-user', [HomeController::class, 'chartUser']);
 Route::get('/chart-stok', [HomeController::class, 'chartStok']);
 Route::get('/chart-penjualan', [HomeController::class, 'chartPenjualan']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
-
-    // Route::get('/', [WelcomeController::class, 'index'])->name('home.index');
-
-    Route::group(['prefix' => 'member'], function () {
-        Route::post('/list', [WelcomeController::class, 'list'])->name('member.list');
-        Route::get('/export-pdf', [WelcomeController::class, 'exportPdf'])->name('member.export.pdf');
-        Route::get('/export-excel', [WelcomeController::class, 'exportExcel'])->name('member.export.excel');
-        Route::get('/updateValidation/{id}', [WelcomeController::class, 'updateValidation'])->name('member.updateValidation');
-        Route::get('/{id}', [WelcomeController::class, 'show'])->name('member.show');
-        Route::delete('/{id}', [WelcomeController::class, 'destroy'])->name('member.destroy');
-    });
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');

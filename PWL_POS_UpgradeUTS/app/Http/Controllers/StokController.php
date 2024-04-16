@@ -27,11 +27,11 @@ class StokController extends Controller
         $user = userModel::all();
 
         return view('stok.index', [
-        'breadcrumb' => $breadcrumb, 
-        'page' => $page, 
-        'barang' => $barang, 
-        'user' => $user, 
-        'activeMenu' => $activeMenu
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'barang' => $barang,
+            'user' => $user,
+            'activeMenu' => $activeMenu
         ]);
     }
 
@@ -39,29 +39,29 @@ class StokController extends Controller
     {
         $stoks = StokModel::with('barang')->with('user');
 
-        if($request->barang_id){
+        if ($request->barang_id) {
             $stoks->where('barang_id', $request->barang_id);
         }
 
-        if($request->user_id){
+        if ($request->user_id) {
             $stoks->where('user_id', $request->user_id);
         }
 
-        return DataTables::of($stoks)->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
-        ->addColumn('aksi', function ($stok) { // menambahkan kolom aksi
-        $btn = '<a href="'.url('/stok/' . $stok->stok_id).'" class="btn btn-info btn-sm">Detail</a> ';
-        $btn .= '<a href="'.url('/stok/' . $stok->stok_id . '/edit').'" 
+        return DataTables::of($stoks)->addIndexColumn()
+            ->addColumn('aksi', function ($stok) {
+                $btn = '<a href="' . url('/stok/' . $stok->stok_id) . '" class="btn btn-info btn-sm">Detail</a> ';
+                $btn .= '<a href="' . url('/stok/' . $stok->stok_id . '/edit') . '" 
         class="btn btn-warning btn-sm">Edit</a> ';
-        $btn .= '<form class="d-inline-block" method="POST" action="'. 
-        url('/stok/'.$stok->stok_id).'">'
-        . csrf_field() . method_field('DELETE') . 
-        '<button type="submit" class="btn btn-danger btn-sm" 
+                $btn .= '<form class="d-inline-block" method="POST" action="' .
+                    url('/stok/' . $stok->stok_id) . '">'
+                    . csrf_field() . method_field('DELETE') .
+                    '<button type="submit" class="btn btn-danger btn-sm" 
         onclick="return confirm(\'Apakah Anda yakit menghapus data 
-        ini?\');">Hapus</button></form>'; 
-        return $btn;
-        })
-        ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
-        ->make(true);
+        ini?\');">Delete</button></form>';
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     public function show(string $id)
@@ -80,7 +80,7 @@ class StokController extends Controller
         $activeMenu = 'stok';
 
         return view('stok.show', [
-            'breadcrumb' => $breadcrumb, 
+            'breadcrumb' => $breadcrumb,
             'page' => $page,
             'stok' => $stok,
             'activeMenu' => $activeMenu
@@ -102,11 +102,11 @@ class StokController extends Controller
         $user = UserModel::all();
         $activeMenu = 'stok';
 
-        return view('stok.create',[
-            'breadcrumb' => $breadcrumb, 
-            'page' => $page, 
-            'barang' => $barang, 
-            'user' => $user, 
+        return view('stok.create', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'barang' => $barang,
+            'user' => $user,
             'activeMenu' => $activeMenu
         ]);
     }
@@ -128,10 +128,6 @@ class StokController extends Controller
     public function edit(string $id)
     {
         $stok = stokModel::with('barang')->with('user')->find($id);
-
-        // dd($stok);
-
-
         $barang = BarangModel::all();
         $user = UserModel::all();
 
@@ -148,7 +144,7 @@ class StokController extends Controller
         $activeMenu = 'stok';
 
         return view('stok.edit', [
-            'breadcrumb' => $breadcrumb, 
+            'breadcrumb' => $breadcrumb,
             'page' => $page,
             'stok' => $stok,
             'barang' => $barang,
@@ -159,8 +155,6 @@ class StokController extends Controller
 
     public function update(Request $request, string $id)
     {
-
-        // dd($request->all(), $id);
         $request->validate([
             'barang_id' => 'nullable|integer',
             'user_id' => 'nullable|integer',
@@ -177,7 +171,7 @@ class StokController extends Controller
     {
         $check = StokModel::find($id);
 
-        if(!$check){
+        if (!$check) {
             return redirect('/stok')->with('error', 'Data stok tidak ditemukan');
         }
 

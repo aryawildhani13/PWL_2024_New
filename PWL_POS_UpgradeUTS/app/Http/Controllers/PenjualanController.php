@@ -29,49 +29,45 @@ class PenjualanController extends Controller
         $user = userModel::all();
 
         return view('penjualan.index', [
-        'breadcrumb' => $breadcrumb, 
-        'page' => $page, 
-        'user' => $user, 
-        'activeMenu' => $activeMenu
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'user' => $user,
+            'activeMenu' => $activeMenu
         ]);
     }
 
     public function list(Request $request)
     {
-        // $transactions = PenjualanModel::with('user');
-
         $transactions = (object) DB::table('t_penjualan as p')
-                ->join('t_penjualan_detail as pd', 'p.penjualan_id','=', 'pd.penjualan_id')
-                ->join('m_user as u', 'p.user_id','=', 'u.user_id')
-                ->selectRaw('p.penjualan_id,u.nama, p.pembeli, p.penjualan_kode, p.penjualan_tanggal, sum(pd.harga * pd.jumlah) as total')
-                ->groupBy('u.nama')
-                ->groupBy('p.pembeli')
-                ->groupBy('p.penjualan_id')
-                ->groupBy('p.penjualan_kode')
-                ->groupBy('p.penjualan_tanggal')
-                ->get();
+            ->join('t_penjualan_detail as pd', 'p.penjualan_id', '=', 'pd.penjualan_id')
+            ->join('m_user as u', 'p.user_id', '=', 'u.user_id')
+            ->selectRaw('p.penjualan_id,u.nama, p.pembeli, p.penjualan_kode, p.penjualan_tanggal, sum(pd.harga * pd.jumlah) as total')
+            ->groupBy('u.nama')
+            ->groupBy('p.pembeli')
+            ->groupBy('p.penjualan_id')
+            ->groupBy('p.penjualan_kode')
+            ->groupBy('p.penjualan_tanggal')
+            ->get();
 
-        // dd($trans);
-
-        if($request->user_id){
+        if ($request->user_id) {
             $transactions->where('user_id', $request->user_id);
         }
 
-        return DataTables::of($transactions)->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
-        ->addColumn('aksi', function ($penjualan) { // menambahkan kolom aksi
-        $btn = '<a href="'.url('/penjualan/' . $penjualan->penjualan_id).'" class="btn btn-info btn-sm">Detail</a> ';
-        $btn .= '<a href="'.url('/penjualan/' . $penjualan->penjualan_id . '/edit').'" 
+        return DataTables::of($transactions)->addIndexColumn()
+            ->addColumn('aksi', function ($penjualan) {
+                $btn = '<a href="' . url('/penjualan/' . $penjualan->penjualan_id) . '" class="btn btn-info btn-sm">Detail</a> ';
+                $btn .= '<a href="' . url('/penjualan/' . $penjualan->penjualan_id . '/edit') . '" 
         class="btn btn-warning btn-sm">Edit</a> ';
-        $btn .= '<form class="d-inline-block" method="POST" action="'. 
-        url('/penjualan/'.$penjualan->penjualan_id).'">'
-        . csrf_field() . method_field('DELETE') . 
-        '<button type="submit" class="btn btn-danger btn-sm" 
+                $btn .= '<form class="d-inline-block" method="POST" action="' .
+                    url('/penjualan/' . $penjualan->penjualan_id) . '">'
+                    . csrf_field() . method_field('DELETE') .
+                    '<button type="submit" class="btn btn-danger btn-sm" 
         onclick="return confirm(\'Apakah Anda yakit menghapus data 
-        ini?\');">Hapus</button></form>'; 
-        return $btn;
-        })
-        ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
-        ->make(true);
+        ini?\');">Hapus</button></form>';
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     public function edit(string $id)
@@ -79,9 +75,7 @@ class PenjualanController extends Controller
         $penjualan = penjualanModel::with('user')->find($id);
         $penjualanDetail = PenjualanDetailModel::where('penjualan_id', $id)->get();
 
-        // dd($penjualanDetail);
-
-        $barang = StokModel::where('stok_jumlah', '>' ,0)->with('barang')->get();
+        $barang = StokModel::where('stok_jumlah', '>', 0)->with('barang')->get();
         $user = UserModel::all();
 
 
@@ -97,7 +91,7 @@ class PenjualanController extends Controller
         $activeMenu = 'penjualan';
 
         return view('penjualan.edit', [
-            'breadcrumb' => $breadcrumb, 
+            'breadcrumb' => $breadcrumb,
             'page' => $page,
             'penjualan' => $penjualan,
             'penjualanDetail' => $penjualanDetail,
@@ -124,7 +118,7 @@ class PenjualanController extends Controller
         $activeMenu = 'penjualan';
 
         return view('penjualan.show', [
-            'breadcrumb' => $breadcrumb, 
+            'breadcrumb' => $breadcrumb,
             'page' => $page,
             'penjualan' => $penjualan,
             'penjualanDetail' => $penjualanDetail,
@@ -143,16 +137,16 @@ class PenjualanController extends Controller
             'title' => 'Tambah penjualan baru'
         ];
 
-        $barang = StokModel::where('stok_jumlah', '>' ,0)->with('barang')->get();
+        $barang = StokModel::where('stok_jumlah', '>', 0)->with('barang')->get();
         $user = UserModel::all();
 
         $activeMenu = 'penjualan';
 
-        return view('penjualan.create',[
-            'breadcrumb' => $breadcrumb, 
-            'page' => $page, 
-            'barang' => $barang, 
-            'user' => $user, 
+        return view('penjualan.create', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'barang' => $barang,
+            'user' => $user,
             'activeMenu' => $activeMenu
         ]);
     }
@@ -169,10 +163,7 @@ class PenjualanController extends Controller
         ]);
 
         $barang = BarangModel::all();
-    
-
         DB::beginTransaction();
-
         $penjualan = penjualanModel::create($request->all());
 
 
@@ -191,40 +182,38 @@ class PenjualanController extends Controller
             $stok = stokModel::where('barang_id', $item[0])->with('barang')->first();
             $stok->decrement('stok_jumlah', 1);
 
-            if($stok->stok_jumlah < 0 ){
-            return back()->with('error', 'Stok '.$stok->barang_nama.' Tidak Mencukupi');
+            if ($stok->stok_jumlah < 0) {
+                return back()->with('error', 'Stok ' . $stok->barang_nama . 'Tidak Mencukupi');
             }
         }
 
         DB::commit();
 
-        return redirect('/penjualan')->with('success', 'Data penjualan berhasil disimpan');
+        return redirect('/penjualan')->with('success', 'Data Berhasil Tersimpan');
     }
 
     public function destroy(string $id)
     {
         $check = PenjualanModel::find($id);
 
-        if(!$check){
-            return redirect('/penjualan')->with('error', 'Data penjualan tidak ditemukan');
+        if (!$check) {
+            return redirect('/penjualan')->with('error', 'Data Berhasil Tersimpan');
         }
 
         try {
-            PenjualanDetailModel::where('penjualan_id',$id)->first()->delete();
+            PenjualanDetailModel::where('penjualan_id', $id)->first()->delete();
 
             PenjualanModel::destroy($id);
 
-            return redirect('/penjualan')->with('success', 'Data penjualan berhasil dihapus');
+            return redirect('/penjualan')->with('success', 'Data Berhasil Terhapus');
         } catch (\Throwable $th) {
             dd($th);
-            return redirect('/penjualan')->with('error', 'Data penjualan gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+            return redirect('/penjualan')->with('error', 'Data penjualan gagal dihapus karena konflik dengan tabel lain');
         }
     }
 
     public function update(Request $request, string $id)
     {
-
-        // dd($request->all(), $id);
         $request->validate([
             'barang_id' => 'nullable|array',
             'user_id' => 'nullable|integer',
@@ -234,15 +223,13 @@ class PenjualanController extends Controller
         ]);
         DB::beginTransaction();
 
-
         $penjualan = PenjualanModel::find($id);
         $penjualan->update($request->all());
         $barang = BarangModel::all();
 
-
         $barangLaku = $request->only('barang_id');
 
-        if(count($barangLaku) > 0){
+        if (count($barangLaku) > 0) {
             PenjualanDetailModel::where('penjualan_id', $id)->delete();
 
             foreach ($barangLaku as $key => $item) {
@@ -253,18 +240,14 @@ class PenjualanController extends Controller
                     'harga' => $barang->find($item[0])->harga_jual,
                     'jumlah' => 1,
                 ]);
-    
                 $stok = stokModel::where('barang_id', $item[0])->with('barang')->first();
                 $stok->decrement('stok_jumlah', 1);
-    
-                if($stok->stok_jumlah < 0 ){
-                return back()->with('error', 'Stok '.$stok->barang_nama.' Tidak Mencukupi');
+                if ($stok->stok_jumlah < 0) {
+                    return back()->with('error', 'Stok ' . $stok->barang_nama . ' Tidak Mencukupi');
                 }
             }
         }
-
         DB::commit();
-
         return redirect('/penjualan')->with('success', 'Data penjualan berhasil diubah');
     }
 }

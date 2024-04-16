@@ -136,7 +136,7 @@ class LevelController extends Controller
             'title' => 'Detail level'
         ];
 
-        $activeMenu = 'level'; // set menu yang sedang aktif
+        $activeMenu = 'level';
 
         return view('level.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
@@ -144,17 +144,13 @@ class LevelController extends Controller
     public function destroy(string $id)
     {
         $check = LevelModel::find($id);
-        if (!$check) {      // untuk mengecek apakah data level dengan id yang dimaksud ada atau tidak
+        if (!$check) {
             return redirect('/level')->with('error', 'Data level tidak ditemukan');
         }
-
         try {
-            LevelModel::destroy($id);   // Hapus data level
-
+            LevelModel::destroy($id);
             return redirect('/level')->with('success', 'Data level berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
-
-            // Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
             return redirect('/level')->with('error', 'Data level gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }

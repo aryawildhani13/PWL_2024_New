@@ -22,10 +22,10 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <div class="h1">PWL POS</div>
+                <div class="h1">POS Supermarket RumahEmak</div>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Login Untuk Masuk Ke Sistem</p>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -65,7 +65,7 @@
                     <div class="row ">
                         <!-- /.col -->
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -74,7 +74,7 @@
                 <!-- /.social-auth-links -->
 
                 <div class="mb-0 mt-2 text-center">
-                    <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
+                    <a href="{{ route('register') }}" class="text-center">Registrasi Staff</a>
                 </div>
             </div>
             <!-- /.card-body -->

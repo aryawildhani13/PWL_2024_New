@@ -1,3 +1,22 @@
+<style>
+    .dt-buttons {
+        display: flex;
+        gap: .5rem !important;
+    }
+
+    .dt-buttons .btn {
+        border-radius: 5px !important;
+        border: none;
+    }
+
+    .dt-buttons .btn.buttons-excel {
+        background-color: #33c481;
+    }
+
+    .dt-buttons .btn.buttons-pdf {
+        background-color: #f00;
+    }
+</style>
 @extends('layouts.template')
 @section('content')
     <div class="card card-outline card-primary">
@@ -51,7 +70,9 @@
     <script>
         $(document).ready(function() {
             var dataUser = $('#table_barang').DataTable({
-                serverSide: true, // serverSide: true, jika ingin menggunakan server side processing
+                dom: 'Bfrtip',
+                buttons: ['excel', 'pdf'],
+                serverSide: true, 
                 ajax: {
                     "url": "{{ url('barang/list') }}",
                     "dataType": "json",
@@ -61,37 +82,40 @@
                     }
                 },
                 columns: [{
-                    data: "DT_RowIndex", // nomor urut dari laravel datatableaddIndexColumn()
+                    data: "DT_RowIndex", 
                     className: "text-center",
                     orderable: false,
                     searchable: false
                 }, {
                     data: "barang_kode",
                     className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: true, 
+                    searchable: true 
                 }, {
                     data: "barang_nama",
                     className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: true, 
+                    searchable: true 
                 }, {
                     data: "harga_beli",
                     className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: true, 
+                    searchable: true 
                 }, {
                     data: "harga_jual",
                     className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: true, 
+                    searchable: true 
                 }, {
                     data: "aksi",
                     className: "",
-                    orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: false // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: false, 
+                    searchable: false 
                 }]
             });
+
+                // orderable: true, kolom bisa diurutkan
+                // searchable: true, kolom bisa dicari
 
             $('#kategori_id').on('change', function() {
                 dataUser.ajax.reload();

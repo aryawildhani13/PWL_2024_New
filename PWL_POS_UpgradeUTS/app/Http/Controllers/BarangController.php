@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BarangModelDataTable;
-use App\Http\Requests\StoreBarangRequest;
 use App\Models\BarangModel;
 use App\Models\KategoriModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 
 class BarangController extends Controller
@@ -143,7 +140,6 @@ class BarangController extends Controller
     public function show($id)
     {
         $barang = BarangModel::find($id);
-
         $breadcrumb = (object) [
             'title' => 'Detail Barang',
             'list'  => ['Home', 'Barang', 'Detail']
@@ -152,26 +148,20 @@ class BarangController extends Controller
         $page = (object) [
             'title' => 'Detail barang'
         ];
-
-        $activeMenu = 'barang'; // set menu yang sedang aktif
-
+        $activeMenu = 'barang';
         return view('barang.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'activeMenu' => $activeMenu]);
     }
 
     public function destroy(string $id)
     {
         $check = BarangModel::find($id);
-        if (!$check) {      // untuk mengecek apakah data barang dengan id yang dimaksud ada atau tidak
+        if (!$check) {
             return redirect('/barang')->with('error', 'Data barang tidak ditemukan');
         }
-
         try {
-            BarangModel::destroy($id);   // Hapus data barang
-
+            BarangModel::destroy($id);
             return redirect('/barang')->with('success', 'Data barang berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
-
-            // Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
             return redirect('/barang')->with('error', 'Data barang gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }

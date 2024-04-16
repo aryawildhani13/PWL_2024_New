@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_stok', function (Blueprint $table) {
-            $table->id();
+            $table->id('stok_id');
             $table->unsignedBigInteger('barang_id')->index();
             $table->unsignedBigInteger('user_id')->index();
             $table->dateTime('stok_tanggal');

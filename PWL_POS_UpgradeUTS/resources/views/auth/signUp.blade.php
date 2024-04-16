@@ -21,7 +21,7 @@
     <div class="register-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <div class="h1">PWL POS</div>
+                <div class="h1">POS Supermarket RumahEmak</div>
             </div>
 
             @if ($errors->any())
@@ -35,7 +35,7 @@
             @endif
 
             <div class="card-body">
-                <p class="login-box-msg">Register a new membership</p>
+                <p class="login-box-msg">Registrasi Staff</p>
                 <form action="{{ url('register') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="input-group mb-3">
@@ -85,14 +85,14 @@
 
                         <!-- /.col -->
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button type="submit" class="btn btn-primary btn-block">Registrasi</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
                 <div class="mb-0 mt-2 text-center">
-                    <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
+                    <a href="{{ route('login') }}" class="text-center">Sudah Melakukan Registrasi</a>
                 </div>
             </div>
             <!-- /.form-box -->

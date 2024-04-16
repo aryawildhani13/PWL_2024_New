@@ -34,7 +34,6 @@ class UserModel extends Authenticatable
         'password' => 'hashed',
     ];
 
-
     public function level(): BelongsTo
     {
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');

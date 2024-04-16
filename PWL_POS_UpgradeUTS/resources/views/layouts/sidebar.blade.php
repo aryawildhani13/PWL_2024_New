@@ -79,7 +79,7 @@
             <li class="nav-item">
                 <form action={{ url('logout') }} method="post" class="bg-transparent">
                     @csrf
-                    <button type="submit" class="btn btn-block btn-transparent" style="color: #c2c7d0; text-align: start; padding: 8px 16px">
+                    <button type="submit" class="btn  btn-block btn-transparent" style="color: #c2c7d0; text-align: start; padding: 8px 16px">
                         <i class="nav-icon fas fa-door-open"></i>
                         Logout
                     </button>

@@ -51,11 +51,12 @@ class HomeController extends Controller
         return $stok;
     }
 
-    public function chartPenjualan() {
+    public function chartPenjualan()
+    {
         $penjualan = DB::table('t_penjualan')
-        ->select(DB::raw('DATE(penjualan_tanggal) as date'), DB::raw('count(*) as total'))
-        ->groupBy('date')
-        ->get();
+            ->select(DB::raw('DATE(penjualan_tanggal) as date'), DB::raw('count(*) as total'))
+            ->groupBy('date')
+            ->get();
 
         return $penjualan;
     }

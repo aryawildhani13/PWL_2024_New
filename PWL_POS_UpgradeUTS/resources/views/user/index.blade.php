@@ -72,7 +72,7 @@
             var dataUser = $('#table_user').DataTable({
                 dom: 'Bfrtip',
                 buttons: ['excel', 'pdf'],
-                serverSide: true, // serverSide: true, jika ingin menggunakan server side processing
+                serverSide: true, 
                 ajax: {
                     "url": "{{ url('user/list') }}",
                     "dataType": "json",
@@ -82,32 +82,35 @@
                     }
                 },
                 columns: [{
-                    data: "DT_RowIndex", // nomor urut dari laravel datatableaddIndexColumn()
+                    data: "DT_RowIndex", 
                     className: "text-center",
                     orderable: false,
                     searchable: false
                 }, {
                     data: "username",
                     className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: true, 
+                    searchable: true 
                 }, {
                     data: "nama",
                     className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: true, 
+                    searchable: true 
                 }, {
                     data: "level.level_nama",
                     className: "",
-                    orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: false // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: false, 
+                    searchable: false 
                 }, {
                     data: "aksi",
                     className: "",
-                    orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: false // searchable: true, jika ingin kolom ini bisa dicari
+                    orderable: false, 
+                    searchable: false 
                 }]
             });
+
+            // orderable: true, kolom bisa diurutkan
+            // searchable: true, kolom bisa dicari
 
             $('#level_id').on('change', function() {
                 dataUser.ajax.reload();

@@ -14,7 +14,7 @@
             @else
                 <table class="table table-bordered table-striped table-hover tablesm">
                     <tr>
-                        <th>Image</th>
+                        <th>Profile Picture</th>
                         <td>
                             <img src="{{asset('storage/' . $user->profile_img)}}" alt="" srcset="" style="width: 240px; height: 240px; object-fit: cover">
                         </td>
