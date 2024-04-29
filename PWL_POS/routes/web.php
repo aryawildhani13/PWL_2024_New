@@ -124,5 +124,4 @@ Route::group(['middleware' => ['auth']], function() {
     //     Route::delete('/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy'); 
     // });
     
-    // Route::resource('m_user', POSController::class);
 
