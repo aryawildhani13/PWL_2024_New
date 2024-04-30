@@ -47,7 +47,7 @@ class AuthController extends Controller
             return redirect()->intended('/');
         }
 
-        return redirect()
+        return redirect('login')
             ->withInput()
             ->withErrors(['login_gagal' => 'Pastikan kembali usernamedan password yang dimasukkan sudah benar']);
     }
