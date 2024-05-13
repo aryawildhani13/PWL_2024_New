@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ManagerController;
@@ -31,7 +32,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/signUp', [AuthController::class, 'signUp'])->name('signUp.index');
 // Route::post('/signUp', [AuthController::class, 'authenticate'])->name('signUp.authenticate');
 
-Route::get('/', [WelcomeController::class, 'index'])->name('home.index');
+Route::get('/file-upload', [FileUploadController::class, 'fileupload']);
+Route::post('/file-upload', [FileUploadController::class, 'prosesFileUpload']);
 
 Route::get('/adminlte', function () {
     return view('welcome_admin_lte');
@@ -49,14 +51,15 @@ Route::post('proses_register', [AuthController::class, 'proses_register'])->name
 
 
 Route::group(['middleware' => ['auth']], function() {
+Route::get('/', [WelcomeController::class, 'index'])->name('home.index');
+
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::resource('admin', AdminController::class);
     });
     Route::group(['middleware' => ['cek_login:2']], function () {
         Route::resource('manager', ManagerController::class);
     });
-});
-    
+
     Route::group(['prefix' => 'user'], function(){
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::post('/list', [UserController::class, 'list'])->name('user.list');
@@ -123,5 +126,10 @@ Route::group(['middleware' => ['auth']], function() {
         Route::put('/{id}', [PenjualanController::class, 'update'])->name('penjualan.update');
         Route::delete('/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy'); 
     });
+});
     
+
+    
+    // Route::resource('m_user', POSController::class);
+
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserModel;
+use App\Models\userModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,14 +15,18 @@ class AuthController extends Controller
     {
         $user = Auth::user();
 
-        if ($user) {
-            if ($user->level_id == '1') {
-                return redirect()->intended('admin');
-            } elseif ($user->level == '2') {
-                return redirect()->intended('manager');
-            }
-        }
-
+        if($user){
+                return redirect()->intended('user');
+        //     if($user->level_id =='1')
+        //     {
+        //         return redirect()->intended('admin');
+        //     }elseif($user->level == '2')
+        //     {
+        //         return redirect()->intended('manager');
+        //     }
+        // 
+    }
+        
         return view('login');
     }
 
@@ -35,21 +39,24 @@ class AuthController extends Controller
 
         $credentials =  $request->only(['username', 'password']);
 
-        if (Auth::attempt($credentials)) {
+        if(Auth::attempt($credentials))
+        {
             $user = Auth::user();
 
-            if ($user->level_id == '1') {
+            if($user->level_id == '1')
+            {
                 return redirect()->intended('admin');
-            } elseif ($user->level_id == '2') {
+            }
+            elseif ($user->level_id == '2') {
                 return redirect()->intended('manager');
             }
 
             return redirect()->intended('/');
         }
 
-        return redirect('login')
-            ->withInput()
-            ->withErrors(['login_gagal' => 'Pastikan kembali usernamedan password yang dimasukkan sudah benar']);
+        return redirect()
+        ->withInput()
+        ->withErrors(['login_gagal' => 'Pastikan kembali usernamedan password yang dimasukkan sudah benar']);
     }
 
     public function register()
@@ -65,18 +72,20 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if ($validator->fails()) {
+        if($validator->fails())
+        {
             return redirect('/register')
-                ->withErrors($validator)
-                ->withInput();
+            ->withErrors($validator)
+            ->withInput();
         }
 
         $request['level_id'] = '2';
         $request['password'] = Hash::make($request->password);
 
-        UserModel::create($request->all());
+        userModel::create($request->all());
 
         return redirect()->route('login');
+
     }
 
     public function logout(Request $request): RedirectResponse
@@ -87,4 +96,6 @@ class AuthController extends Controller
 
         return redirect('login');
     }
+
+   
 }

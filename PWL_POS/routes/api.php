@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\LevelController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\BarangController;
 use App\Http\Controllers\Api\KategoriController;
+use App\Http\Controllers\Api\TransaksiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::post('/register', RegisterController::class)->name('register');
+Route::post('/register1', RegisterController::class)->name('register');
+// Route::post('/register', RegisterController::class)->name('register');
 Route::post('/login', LoginController::class)->name('login');
 Route::post('/logout', LogoutController::class)->name('logout');
+
+Route::post('/register1', RegisterController::class)->name('register1');
 
 Route::get('/level', [LevelController::class, 'index']);
 Route::post('/level', [LevelController::class, 'store']);
@@ -48,6 +51,10 @@ Route::post('/barang', [BarangController::class, 'store']);
 Route::get('/barang/{barang}', [BarangController::class, 'show']);
 Route::put('/barang/{barang}', [BarangController::class, 'update']);
 Route::delete('/barang/{barang}', [BarangController::class, 'destroy']);
+
+Route::get('/transaksi', [TransaksiController::class, 'index']);
+Route::post('/transaksi', [TransaksiController::class, 'store']);
+
 
 Route::middleware('auth:api')->get('/user', function(Request $request){
     

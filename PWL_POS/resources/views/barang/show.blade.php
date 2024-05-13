@@ -12,30 +12,38 @@
                     Data yang Anda cari tidak ditemukan.
                 </div>
             @else
-                <table class="table table-bordered table-striped table-hover tablesm">
+                <table class="table table-bordered table-striped table-hover table-sm">
                     <tr>
                         <th>ID</th>
                         <td>{{ $barang->barang_id }}</td>
                     </tr>
                     <tr>
-                        <th>Barang Kode</th>
+                        <th>Kategori Barang</th>
+                        <td>{{ $barang->kategori->kategori_nama }}</td>
+                    </tr>
+                    <tr>
+                        <th>Kode Barang</th>
                         <td>{{ $barang->barang_kode }}</td>
                     </tr>
                     <tr>
-                        <th>Barang Nama</th>
+                        <th>Nama Barang</th>
                         <td>{{ $barang->barang_nama }}</td>
                     </tr>
                     <tr>
                         <th>Harga Beli</th>
-                        <td>{{ $barang->harga_jual }}</td>
+                        <td>{{ $barang->harga_beli }}</td>
                     </tr>
                     <tr>
                         <th>Harga Jual</th>
                         <td>{{ $barang->harga_jual }}</td>
                     </tr>
+                    <tr>
+                        <th>Gambar Barang</th>
+                        <td><img src="{{ $barang->image }}" alt="gambar_barang" style="max-width: 200px"></td>
+                    </tr>
                 </table>
             @endempty
-            <a href="{{ url('barang') }}" class="btn btn-sm btn-default mt2">Kembali</a>
+            <a href="{{ url('barang') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
         </div>
     </div>
 @endsection
