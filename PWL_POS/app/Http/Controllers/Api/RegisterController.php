@@ -25,7 +25,7 @@ class RegisterController extends Controller
         $imageName = $image->hashName();
         $image->storeAs('public/posts', $imageName);
 
-        $user = userModel::create([
+        $user = UserModel::create([
             'username' => $request->username,
             'nama' => $request->nama,
             'password' => bcrypt($request->password),
