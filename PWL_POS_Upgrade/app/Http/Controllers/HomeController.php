@@ -60,4 +60,8 @@ class HomeController extends Controller
 
         return $penjualan;
     }
+
+    
+
+
 }

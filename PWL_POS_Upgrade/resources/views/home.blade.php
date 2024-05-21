@@ -13,7 +13,7 @@
         </div>
         <div class="row" style="margin-top: 25px;">
             <div class="col shadow p-5">
-                <h2>Grafik Penjualan</h2>
+                <h2>Grafik Forecasting Penjualan </h2>
                 <canvas id="penjualan-chart"></canvas>
             </div>
         </div>
@@ -57,22 +57,66 @@
             })
         })
 
-        $.get("{{ url('chart-penjualan') }}").then((data) => {
+        //forecasting Penjualan
 
-            const labels = data.map((d) => d.date);
-            const total = data.map((d) => d.total);
+    $.get("{{ url('chart-penjualan') }}").then((data) => {
+    const labels = data.map((d) => d.date);
+    const total = data.map((d) => d.total);
 
-            const ctx = document.getElementById('penjualan-chart');
-            let chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: '# of Penjualan',
-                        data: total,
-                    }]
+    // Function to calculate Exponential Smoothing
+    const calculateExponentialSmoothing = (data, alpha) => {
+        let result = [data[0]]; // Start with the first data point
+        for (let i = 1; i < data.length; i++) {
+            result.push(alpha * data[i] + (1 - alpha) * result[i - 1]);
+        }
+        return result;
+    }
+
+    // Set the alpha parameter for Exponential Smoothing
+    const alpha = 0.5; // Choose a value between 0 and 1
+    const forecast = calculateExponentialSmoothing(total, alpha);
+
+    const ctx = document.getElementById('penjualan-chart');
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: '# of Penjualan',
+                    data: total,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false,
+                },
+                {
+                    label: 'Forecasted Penjualan',
+                    data: forecast,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderDash: [5, 5],
+                    fill: false,
                 }
-            })
-        })
+            ]
+        }
+    });
+});
+
+
+        // $.get("{{ url('chart-penjualan') }}").then((data) => {
+
+        //     const labels = data.map((d) => d.date);
+        //     const total = data.map((d) => d.total);
+
+        //     const ctx = document.getElementById('penjualan-chart');
+        //     let chart = new Chart(ctx, {
+        //         type: 'line',
+        //         data: {
+        //             labels,
+        //             datasets: [{
+        //                 label: '# of Penjualan',
+        //                 data: total,
+        //             }]
+        //         }
+        //     })
+        // })
     </script>
 @endpush
